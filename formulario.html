@@ -9,7 +9,7 @@
 </head>
 
 <body class="formularioLeads">
-  <div class="modalRespuesta " id="modalRespuesta"> <!-- class mostrar .show -->
+  <div class="modalRespuesta show" id="modalRespuesta"> <!-- class mostrar .show -->
     <div class="row">
       <div class="col-12 centrar">
         <div class="contenMSJ">
@@ -65,7 +65,7 @@
               *Teléfono:
             </label>
             <div class="contentInputError">
-              <input type="number" name="" data-valTel="false" id="telefono" placeholder="(indicativo)+numero">
+              <input type="number" name="" data-valTel="false" id="telefono" placeholder="Indicativo más número">
             </div>
           </div>
         </div>
@@ -197,7 +197,7 @@
       let result = patronTelReg.test(valor);
       telefono.dataset.valTel = result;
       if (!result) {
-        mostrarError(telefono, "*Teléfono no valido. Ej. 601..");
+        mostrarError(telefono, "*Mínimo 10 dígitos.");
       }
     }
 
