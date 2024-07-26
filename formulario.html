@@ -65,7 +65,7 @@
               *Teléfono:
             </label>
             <div class="contentInputError">
-              <input type="number" name="" id="telefono" placeholder="(indicativo)+numero">
+              <input type="number" name="" data-valTel="false" id="telefono" placeholder="(indicativo)+numero">
             </div>
           </div>
         </div>
@@ -183,29 +183,47 @@
     function checkEmail(elm, valor) {
       let correo = document.getElementById('correo');
       let result = patronEmailReg.test(valor);
-      correo.dataset.valemail = result;
+      correo.dataset.valEmail = result;
       if (!result) {
         mostrarError(correo, "*Correo no valido.");
       }
+    }
 
+    //tel validar
+    let patronTelReg = /^(?:\D*\d){10}\D*$/;
 
-      //return result;
+    function checkTelefono(elm, valor) {
+      let telefono = document.getElementById('telefono');
+      let result = patronTelReg.test(valor);
+      telefono.dataset.valTel = result;
+      if (!result) {
+        mostrarError(telefono, "*Teléfono no valido. Ej. 601..");
+      }
     }
 
     let correo = document.getElementById('correo');
     correo.addEventListener("focusout", (event) => {
       checkEmail(correo, event.target.value);
       if (correo.value.length == 1) {
-        if (correo.dataset.valemail) {
+        if (correo.dataset.valEmail) {
           if (!correo.parentElement.parentNode.querySelector(".error")) {
             correo.offsetParent.removeChild(elm);
           }
         }
       }
-
     });
 
-
+    let telefono = document.getElementById('telefono');
+    telefono.addEventListener("focusout", (event) => {
+      checkTelefono(telefono, event.target.value);
+      if (telefono.value.length == 1) {
+        if (telefono.dataset.valTel) {
+          if (!telefono.parentElement.parentNode.querySelector(".error")) {
+            telefono.offsetParent.removeChild(elm);
+          }
+        }
+      }
+    });
 
     //estadoEmail = checkEmail(correo, correo.value);
 
@@ -220,7 +238,7 @@
       let sector = document.getElementById('sector');
       let autorizo = document.getElementById('autorizo');
       let estado = true;
-      let estadoEmail = true;
+
 
 
       // validar si hay valores en los campos
@@ -242,7 +260,7 @@
         estado = false;
       }
       if (sector.value.length == 0) {
-        mostrarError(sector);
+        mostrarError(sector, "*Campo obligatorio.");
         estado = false;
       }
       if (!autorizo.checked) {
@@ -258,9 +276,10 @@
       if (estado) {
 
         // validar correo y telefono
-        console.log(correo.dataset.valemail);
+        //console.log(correo.dataset.valEmail);
+        //console.log(telefono.dataset.valTel);
 
-        if (JSON.parse(correo.dataset.valemail)) {
+        if ( correo.dataset.valEmail === 'true' && telefono.dataset.valTel === 'true') {
           this.submit();
 
 
