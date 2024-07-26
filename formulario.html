@@ -190,7 +190,7 @@
     }
 
     //tel validar
-    let patronTelReg = /^(?:\D*\d){10}\D*$/;
+    let patronTelReg = /^(?:\D*\d){10,}\D*$/;
 
     function checkTelefono(elm, valor) {
       let telefono = document.getElementById('telefono');
