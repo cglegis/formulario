@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css.min.css">
+</head>
+
+<body class="formularioLeads">
+  <div class="modalRespuesta " id="modalRespuesta"> <!-- class mostrar .show -->
+    <div class="row">
+      <div class="col-12 centrar">
+        <div class="contenMSJ">
+          <p class="mensaje">Su mensaje fue enviado con exito.</p>
+          <button class="cerrar" alt="Cerrar" onclick="btnCerrarMSJ('.modalRespuesta')" type="button">
+            <div class="close icon"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <form action="" method="" id="agendamiento">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="mb-0">Agendamiento</h2>
+        </div>
+        <div class="col-4 mb-0">
+          <div class="contentInput">
+            <label for="nombre">
+              *Nombre:
+            </label>
+            <div class="contentInputError">
+              <input type="text" name="" id="nombre">
+            </div>
+          </div>
+        </div>
+        <div class="col-4 mb-0">
+          <div class="contentInput">
+            <label for="apellido">
+              *Apellido:
+            </label>
+            <div class="contentInputError">
+              <input type="text" name="" id="apellido">
+            </div>
+          </div>
+        </div>
+        <div class="col-4 mb-0">
+          <div class="contentInput">
+            <label for="correo">
+              *Correo corporativo:
+            </label>
+            <div class="contentInputError">
+              <input type="text" name="" data-valEmail="false" id="correo" placeholder="Solo correo corporativo">
+            </div>
+          </div>
+        </div>
+        <div class="col-4 mb-0">
+          <div class="contentInput">
+            <label for="telefono">
+              *Teléfono:
+            </label>
+            <div class="contentInputError">
+              <input type="number" name="" id="telefono" placeholder="(indicativo)+numero">
+            </div>
+          </div>
+        </div>
+        <div class="col-6 mb-0">
+          <div class="contentInput">
+            <label for="sector">
+              *Sector:
+            </label>
+            <div class="contentInputError">
+              <select id="sector" name="">
+                <option disabled="" selected value="">Selecciona</option>
+                <option value="Agentes de aduanas">Agentes de aduanas</option>
+                <option value="Construcción">Construcción</option>
+                <option value="Educativo">Educativo</option>
+                <option value="Financiero">Financiero</option>
+                <option value="Manufactura">Manufactura</option>
+                <option value="Oil &amp; Gas">Oil &amp; Gas</option>
+                <option value="Otros servicios">Otros servicios</option>
+                <option value="Productos de consumo">Productos de consumo</option>
+                <option value="Publicidad">Publicidad</option>
+                <option value="Retail">Retail</option>
+                <option value="Salud">Salud</option>
+                <option value="Sector Público">Sector Público</option>
+                <option value="Servicios jurídicos /contables">Servicios jurídicos /contables</option>
+                <option value="Telecomunicaciones y tecnología">Telecomunicaciones y tecnología</option>
+                <option value="Bancos">Bancos</option>
+                <option value="Arte &amp; producciones">Arte &amp; producciones</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mb-0">
+          <div class="check">
+            <label for="autorizo" class="contentInputError">
+              <input id="autorizo" type="checkbox" name="" value="true">
+              <p>*Autorizo el contacto para fines comerciales, publicitarios y estadísticos por Whatsapp, cualquier
+                medio análogo o digital a través de mi número celular, correo electrónico, mensajes de texto, entre
+                otros, por parte de Legis</p>
+            </label>
+          </div>
+        </div>
+
+        <div class="col-12 mb-0">
+          <div class="check">
+            <label for="condiciones" class="contentInputError">
+              <input id="condiciones" type="checkbox" name="" value="true">
+              <p>*Acepto <a href="https://www.legis.com.co/terminosCondiciones" rel="noopener" target="_blank">términos
+                  y condiciones</a> y <a href="https://www.privacidadlegis.com/" rel="noopener" target="_blank">política
+                  de privacidad</a>*</p>
+            </label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="actions">
+            <input type="submit" id="btn-enviar" class="btnSubmit" value="Enviar">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    // cerrar mensaje
+    function btnCerrarMSJ(elm) {
+      var btn = document.querySelector(elm);
+      btn.classList.remove("show");
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("agendamiento").addEventListener('submit', validar);
+    });
+
+    function mostrarError(elem, mensaje) {
+      // <label class="error">*Rellena este campo obligatorio.</label>
+      if (!elem.parentElement.parentNode.querySelector(".error")) {
+        let label = document.createElement("label");
+        label.classList.add("error");
+        label.id = "error_" + elem.id;
+        label.innerHTML = mensaje;
+        label.classList.add("show");
+        elem.parentElement.parentNode.append(label);
+      }
+    }
+
+    function borrarLabelError(event, campos, i) {
+      let error = event.target.offsetParent.parentNode.lastChild;
+      let elm = document.getElementById(error.id);
+      if (elm) {
+        elm.parentNode.removeChild(elm);
+      }
+
+
+    }
+
+    let campos = document.querySelectorAll("[name]");
+    if (campos) {
+      for (let i = 0; i < campos.length; i++) {
+        campos[i].addEventListener("focus", (event) => {
+          borrarLabelError(event, campos, i);
+        });
+
+        campos[i].addEventListener('change', function () {
+          if (this.checked) {
+            borrarLabelError(event, campos, i)
+          }
+        });
+      }
+
+    }
+
+    //correo validar
+    let patronEmailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    function checkEmail(elm, valor) {
+      let correo = document.getElementById('correo');
+      let result = patronEmailReg.test(valor);
+      correo.dataset.valemail = result;
+      if (!result) {
+        mostrarError(correo, "*Correo no valido.");
+      }
+
+
+      //return result;
+    }
+
+    let correo = document.getElementById('correo');
+    correo.addEventListener("focusout", (event) => {
+      checkEmail(correo, event.target.value);
+      if (correo.value.length == 1) {
+        if (correo.dataset.valemail) {
+          if (!correo.parentElement.parentNode.querySelector(".error")) {
+            correo.offsetParent.removeChild(elm);
+          }
+        }
+      }
+
+    });
+
+
+
+    //estadoEmail = checkEmail(correo, correo.value);
+
+    /////////
+
+    function validar(evento) {
+      evento.preventDefault();
+      let nombre = document.getElementById('nombre');
+      let apellido = document.getElementById('apellido');
+      let correo = document.getElementById('correo');
+      let telefono = document.getElementById('telefono');
+      let sector = document.getElementById('sector');
+      let autorizo = document.getElementById('autorizo');
+      let estado = true;
+      let estadoEmail = true;
+
+
+      // validar si hay valores en los campos
+      if (nombre.value.length == 0) {
+        mostrarError(nombre, "*Campo obligatorio.");
+        estado = false;
+      }
+      if (apellido.value.length == 0) {
+        mostrarError(apellido, "*Campo obligatorio.");
+        estado = false;
+      }
+      if (correo.value.length == 0) {
+        mostrarError(correo, "*Campo obligatorio.");
+        estado = false;
+      }
+
+      if (telefono.value.length == 0) {
+        mostrarError(telefono, "*Campo obligatorio.");
+        estado = false;
+      }
+      if (sector.value.length == 0) {
+        mostrarError(sector);
+        estado = false;
+      }
+      if (!autorizo.checked) {
+        mostrarError(autorizo, "*Campo obligatorio.");
+        estado = false;
+      }
+      if (!condiciones.checked) {
+        mostrarError(condiciones, "*Campo obligatorio.");
+        estado = false;
+      }
+
+      // si es correcto se envia
+      if (estado) {
+
+        // validar correo y telefono
+        console.log(correo.dataset.valemail);
+
+        if (JSON.parse(correo.dataset.valemail)) {
+          this.submit();
+
+
+        }
+      }
+    }
+
+
+
+
+  </script>
+
+</body>
+
+</html>
