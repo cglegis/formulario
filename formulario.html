@@ -35,7 +35,7 @@
               *Nombre:
             </label>
             <div class="contentInputError">
-              <input type="text" name="" id="nombre">
+              <input type="text" size="100" data-valNombre="false" name="" id="nombre">
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@
               *Apellido:
             </label>
             <div class="contentInputError">
-              <input type="text" name="" id="apellido">
+              <input type="text" size="100" data-valApellido="false" name="" id="apellido">
             </div>
           </div>
         </div>
@@ -55,7 +55,8 @@
               *Correo corporativo:
             </label>
             <div class="contentInputError">
-              <input type="text" name="" data-valEmail="false" id="correo" placeholder="Solo correo corporativo">
+              <input type="text" name="" size="100" data-valEmail="false" id="correo"
+                placeholder="Solo correo corporativo">
             </div>
           </div>
         </div>
@@ -65,7 +66,8 @@
               *Teléfono:
             </label>
             <div class="contentInputError">
-              <input type="number" name="" data-valTel="false" id="telefono" placeholder="Indicativo más número">
+              <input type="number" name="" size="20" data-valTel="false" id="telefono"
+                placeholder="Indicativo más número">
             </div>
           </div>
         </div>
@@ -178,7 +180,7 @@
     }
 
     //correo validar
-    let patronEmailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    let patronEmailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     function checkEmail(elm, valor) {
       let correo = document.getElementById('correo');
@@ -186,18 +188,6 @@
       correo.dataset.valEmail = result;
       if (!result) {
         mostrarError(correo, "*Correo no valido.");
-      }
-    }
-
-    //tel validar
-    let patronTelReg = /^(?:\D*\d){10,}\D*$/;
-
-    function checkTelefono(elm, valor) {
-      let telefono = document.getElementById('telefono');
-      let result = patronTelReg.test(valor);
-      telefono.dataset.valTel = result;
-      if (!result) {
-        mostrarError(telefono, "*Mínimo 10 dígitos.");
       }
     }
 
@@ -213,6 +203,18 @@
       }
     });
 
+    //tel validar Tel
+    let patronTelReg = /^(?:\D*\d){10,}\D*$/;
+
+    function checkTelefono(elm, valor) {
+      let telefono = document.getElementById('telefono');
+      let result = patronTelReg.test(valor);
+      telefono.dataset.valTel = result;
+      if (!result) {
+        mostrarError(telefono, "*Mínimo 10 dígitos.");
+      }
+    }
+
     let telefono = document.getElementById('telefono');
     telefono.addEventListener("focusout", (event) => {
       checkTelefono(telefono, event.target.value);
@@ -224,6 +226,21 @@
         }
       }
     });
+
+
+    // validar valNombre
+    let patronNombreReg = /^([a-zA-Z])+\s*([a-zA-Z]+)+\s*([a-zA-Z]+)$/;
+
+    function checkNombre(elm, valor) {
+      let Nombre = document.getElementById('nombre');
+      let result = patronNombreReg.test(valor);
+      telefono.dataset.valTel = result;
+      if (!result) {
+        mostrarError(Nombre, "*Sin espacios al inicio.");
+      }
+    }
+
+    
 
     //estadoEmail = checkEmail(correo, correo.value);
 
@@ -279,7 +296,7 @@
         //console.log(correo.dataset.valEmail);
         //console.log(telefono.dataset.valTel);
 
-        if ( correo.dataset.valEmail === 'true' && telefono.dataset.valTel === 'true') {
+        if (correo.dataset.valEmail === 'true' && telefono.dataset.valTel === 'true') {
           this.submit();
 
 
