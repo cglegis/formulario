@@ -9,7 +9,7 @@
 </head>
 
 <body class="formularioLeads">
-  <div class="modalRespuesta show" id="modalRespuesta"> <!-- class mostrar .show -->
+  <div class="modalRespuesta " id="modalRespuesta"> <!-- class mostrar .show -->
     <div class="row">
       <div class="col-12 centrar">
         <div class="contenMSJ">
@@ -35,7 +35,8 @@
               *Nombre:
             </label>
             <div class="contentInputError">
-              <input type="text" size="100" data-valNombre="false" name="" id="nombre">
+              <input type="text" size="100" data-nombre="false" name="" id="nombre" placeholder="Solo nombres."
+                autocomplete="off">
             </div>
           </div>
         </div>
@@ -45,18 +46,19 @@
               *Apellido:
             </label>
             <div class="contentInputError">
-              <input type="text" size="100" data-valApellido="false" name="" id="apellido">
+              <input type="text" size="100" data-apellido="false" name="" id="apellido" placeholder="Solo apellidos."
+                autocomplete="off">
             </div>
           </div>
         </div>
         <div class="col-4 mb-0">
           <div class="contentInput">
             <label for="correo">
-              *Correo corporativo:
+              *Correo:
             </label>
             <div class="contentInputError">
-              <input type="text" name="" size="100" data-valEmail="false" id="correo"
-                placeholder="Solo correo corporativo">
+              <input type="text" name="" size="100" data-correo="false" id="correo"
+                placeholder="Correo personal o corporativo." autocomplete="off">
             </div>
           </div>
         </div>
@@ -66,8 +68,8 @@
               *Teléfono:
             </label>
             <div class="contentInputError">
-              <input type="number" name="" size="20" data-valTel="false" id="telefono"
-                placeholder="Indicativo más número">
+              <input type="number" name="" size="20" data-telefono="false" id="telefono"
+                placeholder="Indicativo más número." autocomplete="off">
             </div>
           </div>
         </div>
@@ -159,8 +161,6 @@
       if (elm) {
         elm.parentNode.removeChild(elm);
       }
-
-
     }
 
     let campos = document.querySelectorAll("[name]");
@@ -179,23 +179,73 @@
 
     }
 
-    //correo validar
+
+    //////////////////////////////
+
+    // validar nombre
+    let patronNombreReg = /^((([a-zA-Z])+\s)*)([a-zA-Z]+$)/;
+    let nombre = document.getElementById('nombre');
+
+    function checkNombre(elm, valor) {
+      let result = patronNombreReg.test(valor);
+      nombre.dataset.nombre = result;
+      if (!result) {
+        mostrarError(nombre, "*Campo obligatorio, sin espacios al inicio o final.");
+      }
+    }
+
+    nombre.addEventListener("focusout", (event) => {
+      checkNombre(nombre, event.target.value);
+      if (nombre.value.length == 1) {
+        if (nombre.dataset.nombre) {
+          if (!nombre.parentElement.parentNode.querySelector(".error")) {
+            nombre.offsetParent.removeChild(elm);
+          }
+        }
+      }
+    });
+
+
+    // validar Apellido
+    let patronApellidoReg = /^((([a-zA-Z])+\s)*)([a-zA-Z]+$)/;
+    let apellido = document.getElementById('apellido');
+
+    function checkApellido(elm, valor) {
+      let result = patronApellidoReg.test(valor);
+      apellido.dataset.apellido = result;
+      if (!result) {
+        mostrarError(apellido, "*Campo obligatorio, sin espacios al inicio o final.");
+      }
+    }
+
+    apellido.addEventListener("focusout", (event) => {
+      checkApellido(apellido, event.target.value);
+      if (apellido.value.length == 1) {
+        if (apellido.dataset.apellido) {
+          if (!apellido.parentElement.parentNode.querySelector(".error")) {
+            apellido.offsetParent.removeChild(elm);
+          }
+        }
+      }
+    });
+
+
+    // validar correo
     let patronEmailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let correo = document.getElementById('correo');
 
     function checkEmail(elm, valor) {
-      let correo = document.getElementById('correo');
       let result = patronEmailReg.test(valor);
-      correo.dataset.valEmail = result;
+      correo.dataset.correo = result;
       if (!result) {
         mostrarError(correo, "*Correo no valido.");
       }
     }
 
-    let correo = document.getElementById('correo');
     correo.addEventListener("focusout", (event) => {
       checkEmail(correo, event.target.value);
       if (correo.value.length == 1) {
-        if (correo.dataset.valEmail) {
+        if (correo.dataset.correo) {
           if (!correo.parentElement.parentNode.querySelector(".error")) {
             correo.offsetParent.removeChild(elm);
           }
@@ -203,23 +253,22 @@
       }
     });
 
-    //tel validar Tel
+    // validar Tel
     let patronTelReg = /^(?:\D*\d){10,}\D*$/;
+    let telefono = document.getElementById('telefono');
 
     function checkTelefono(elm, valor) {
-      let telefono = document.getElementById('telefono');
       let result = patronTelReg.test(valor);
-      telefono.dataset.valTel = result;
+      telefono.dataset.telefono = result;
       if (!result) {
         mostrarError(telefono, "*Mínimo 10 dígitos.");
       }
     }
 
-    let telefono = document.getElementById('telefono');
     telefono.addEventListener("focusout", (event) => {
       checkTelefono(telefono, event.target.value);
       if (telefono.value.length == 1) {
-        if (telefono.dataset.valTel) {
+        if (telefono.dataset.telefono) {
           if (!telefono.parentElement.parentNode.querySelector(".error")) {
             telefono.offsetParent.removeChild(elm);
           }
@@ -228,23 +277,12 @@
     });
 
 
-    // validar valNombre
-    let patronNombreReg = /^([a-zA-Z])+\s*([a-zA-Z]+)+\s*([a-zA-Z]+)$/;
 
-    function checkNombre(elm, valor) {
-      let Nombre = document.getElementById('nombre');
-      let result = patronNombreReg.test(valor);
-      telefono.dataset.valTel = result;
-      if (!result) {
-        mostrarError(Nombre, "*Sin espacios al inicio.");
-      }
-    }
 
-    
 
-    //estadoEmail = checkEmail(correo, correo.value);
 
-    /////////
+
+    /////////////////////////
 
     function validar(evento) {
       evento.preventDefault();
@@ -292,13 +330,9 @@
       // si es correcto se envia
       if (estado) {
 
-        // validar correo y telefono
-        //console.log(correo.dataset.valEmail);
-        //console.log(telefono.dataset.valTel);
-
-        if (correo.dataset.valEmail === 'true' && telefono.dataset.valTel === 'true') {
+        if (nombre.dataset.nombre === 'true' && apellido.dataset.apellido === 'true' && correo.dataset.correo === 'true' && telefono.dataset.telefono === 'true') {
+          this.disabled = true;
           this.submit();
-
 
         }
       }
