@@ -9,7 +9,7 @@
 </head>
 
 <body class="formularioLeads">
-  <div class="modalRespuesta " id="modalRespuesta"> <!-- class mostrar .show -->
+  <div class="modalRespuesta show" id="modalRespuesta"> <!-- class mostrar .show -->
     <div class="row">
       <div class="col-12 centrar">
         <div class="contenMSJ">
@@ -318,10 +318,10 @@
         mostrarError(sector, "*Campo obligatorio.");
         estado = false;
       }
-      if (!autorizo.checked) {
+      /*if (!autorizo.checked) {
         mostrarError(autorizo, "*Campo obligatorio.");
         estado = false;
-      }
+      }*/
       if (!condiciones.checked) {
         mostrarError(condiciones, "*Campo obligatorio.");
         estado = false;
@@ -331,16 +331,19 @@
       if (estado) {
 
         if (nombre.dataset.nombre === 'true' && apellido.dataset.apellido === 'true' && correo.dataset.correo === 'true' && telefono.dataset.telefono === 'true') {
-          this.disabled = true;
+          //this.disabled = true;
           this.submit();
 
         }
       }
     }
 
-
-
-
+    // desabilitar el boton
+    /*
+    let btnEnviar = document.getElementById("btn-enviar");
+    btnEnviar.setAttribute("disabled", true);
+    btnEnviar.classList.add("disabled");
+    */
   </script>
 
 </body>
