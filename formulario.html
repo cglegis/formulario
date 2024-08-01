@@ -68,7 +68,7 @@
               *Teléfono:
             </label>
             <div class="contentInputError">
-              <input type="number" name="" size="20" maxlength="20" data-telefono="false" id="telefono"
+              <input type="text" name="" size="20" maxlength="20" data-telefono="false" id="telefono"
                 placeholder="Indicativo más número." autocomplete="off">
             </div>
           </div>
@@ -261,7 +261,7 @@
       let result = patronTelReg.test(valor);
       telefono.dataset.telefono = result;
       if (!result) {
-        mostrarError(telefono, "*Mínimo 10 dígitos.");
+        mostrarError(telefono, "*Mínimo 10 dígitos. Solo números");
       }
     }
 
@@ -311,7 +311,7 @@
       }
 
       if (telefono.value.length == 0) {
-        mostrarError(telefono, "*Campo obligatorio.");
+        mostrarError(telefono, "*Campo obligatorio. Solo digitos");
         estado = false;
       }
       if (sector.value.length == 0) {
