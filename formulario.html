@@ -5,11 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
   <link rel="stylesheet" href="css.min.css">
 </head>
 
-<body class="formularioLeads">
-  <div class="modalRespuesta show" id="modalRespuesta"> <!-- class mostrar .show -->
+<body class="formularioLeads m-0">
+  <div class="modalRespuesta" id="modalRespuesta"> <!-- class mostrar .show -->
     <div class="row">
       <div class="col-12 centrar">
         <div class="contenMSJ">
@@ -23,35 +24,35 @@
   </div>
 
 
-  <form action="" method="" id="agendamiento">
-    <div class="container">
+  <div class="container-fluid">
+
+
+    <form action="" method="" id="agendamiento" class="m-0 mt-2">
+
       <div class="row">
-        <div class="col-12">
-          <h2 class="mb-0">Agendamiento</h2>
-        </div>
-        <div class="col-4 mb-0">
+        <div class="col-12 col-sm-6 col-md-4 mb-0">
           <div class="contentInput">
             <label for="nombre">
               *Nombre:
             </label>
             <div class="contentInputError">
-              <input type="text" size="100" maxlength="100" data-nombre="false" name="" id="nombre" placeholder="Solo nombres."
-                autocomplete="off">
+              <input type="text" size="100" maxlength="100" data-nombre="false" name="" id="nombre"
+                placeholder="Solo nombres." autocomplete="off">
             </div>
           </div>
         </div>
-        <div class="col-4 mb-0">
+        <div class="col-12 col-sm-6 col-md-4 mb-0">
           <div class="contentInput">
             <label for="apellido">
               *Apellido:
             </label>
             <div class="contentInputError">
-              <input type="text" size="100" maxlength="100" data-apellido="false" name="" id="apellido" placeholder="Solo apellidos."
-                autocomplete="off">
+              <input type="text" size="100" maxlength="100" data-apellido="false" name="" id="apellido"
+                placeholder="Solo apellidos." autocomplete="off">
             </div>
           </div>
         </div>
-        <div class="col-4 mb-0">
+        <div class="col-12 col-sm-6 col-md-4 mb-0">
           <div class="contentInput">
             <label for="correo">
               *Correo:
@@ -62,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="col-4 mb-0">
+        <div class="col-12 col-sm-6 col-md-4 mb-0">
           <div class="contentInput">
             <label for="telefono">
               *Teléfono:
@@ -73,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div class="col-6 mb-0">
+        <div class="col-12 col-sm-7 col-md-4 mb-0">
           <div class="contentInput">
             <label for="sector">
               *Sector:
@@ -111,7 +112,6 @@
             </label>
           </div>
         </div>
-
         <div class="col-12 mb-0">
           <div class="check">
             <label for="condiciones" class="contentInputError">
@@ -127,9 +127,14 @@
             <input type="submit" id="btn-enviar" class="btnSubmit" value="Enviar">
           </div>
         </div>
+
       </div>
-    </div>
-  </form>
+
+
+
+    </form>
+
+  </div>
 
   <script>
     // cerrar mensaje
