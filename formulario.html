@@ -10,12 +10,25 @@
 </head>
 
 <body class="formularioLeads m-0">
-  <div class="modalRespuesta" id="modalRespuesta"> <!-- class mostrar .show -->
+  <!-- mensaje -->
+  <div class="modalRespuesta " id="modalRespuesta"> <!-- class mostrar .show -->
     <div class="row">
       <div class="col-12 centrar">
         <div class="contenMSJ">
           <p class="mensaje">Su mensaje fue enviado con exito.</p>
-          <button class="cerrar" alt="Cerrar" onclick="btnCerrarMSJ('.modalRespuesta')" type="button">
+          <button class="cerrar" alt="Cerrar" onclick="btnCerrarMSJ('#modalRespuesta')" type="button">
+            <div class="close icon"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modalRespuesta " id="modalRespuestaError"> <!-- class mostrar .show -->
+    <div class="row">
+      <div class="col-12 centrar">
+        <div class="contenMSJ error">
+          <p class="mensaje">Algo salió mal. Intenta de nuevo.</p>
+          <button class="cerrar" alt="Cerrar" onclick="btnCerrarMSJ('#modalRespuestaError')" type="button">
             <div class="close icon"></div>
           </button>
         </div>
@@ -23,10 +36,9 @@
     </div>
   </div>
 
+  <!-- end -->
 
   <div class="container-fluid">
-
-
     <form action="" method="" id="agendamiento" class="m-0 mt-2">
 
       <div class="row">
@@ -69,12 +81,12 @@
               *Teléfono:
             </label>
             <div class="contentInputError">
-              <input type="text" name="" size="20" maxlength="20" data-telefono="false" id="telefono"
+              <input type="number" name="" size="20" maxlength="20" data-telefono="false" id="telefono"
                 placeholder="Indicativo más número." autocomplete="off">
             </div>
           </div>
         </div>
-        <div class="col-12 col-sm-7 col-md-4 mb-0">
+        <div class="col-12 col-sm-6 col-md-4 mb-0">
           <div class="contentInput">
             <label for="sector">
               *Sector:
@@ -122,18 +134,15 @@
             </label>
           </div>
         </div>
+
+        <!-- envio -->
         <div class="col-12">
           <div class="actions">
             <input type="submit" id="btn-enviar" class="btnSubmit" value="Enviar">
           </div>
         </div>
-
       </div>
-
-
-
     </form>
-
   </div>
 
   <script>
@@ -143,6 +152,13 @@
       btn.classList.remove("show");
     }
 
+    let nombre = document.getElementById('nombre');
+    let apellido = document.getElementById('apellido');
+    let correo = document.getElementById('correo');
+    let telefono = document.getElementById('telefono');
+    let sector = document.getElementById('sector');
+    let autorizo = document.getElementById('autorizo');
+    let campos = document.querySelectorAll("[name]");
 
     document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("agendamiento").addEventListener('submit', validar);
@@ -168,7 +184,7 @@
       }
     }
 
-    let campos = document.querySelectorAll("[name]");
+
     if (campos) {
       for (let i = 0; i < campos.length; i++) {
         campos[i].addEventListener("focus", (event) => {
@@ -188,11 +204,11 @@
     //////////////////////////////
 
     // validar nombre
-    let patronNombreReg = /^((([a-zA-Z])+\s)*)([a-zA-Z]+$)/;
-    let nombre = document.getElementById('nombre');
+    let patronNombreApellidoReg = /^((([a-zA-Z0-9@#$%^&*()_+!:,.""])+\s)*)([a-zA-Z0-9@#$%^&*()_+!:,.""]+$)/;
+
 
     function checkNombre(elm, valor) {
-      let result = patronNombreReg.test(valor);
+      let result = patronNombreApellidoReg.test(valor);
       nombre.dataset.nombre = result;
       if (!result) {
         mostrarError(nombre, "*Campo obligatorio, sin espacios al inicio o final.");
@@ -212,11 +228,10 @@
 
 
     // validar Apellido
-    let patronApellidoReg = /^((([a-zA-Z])+\s)*)([a-zA-Z]+$)/;
-    let apellido = document.getElementById('apellido');
+
 
     function checkApellido(elm, valor) {
-      let result = patronApellidoReg.test(valor);
+      let result = patronNombreApellidoReg.test(valor);
       apellido.dataset.apellido = result;
       if (!result) {
         mostrarError(apellido, "*Campo obligatorio, sin espacios al inicio o final.");
@@ -237,7 +252,7 @@
 
     // validar correo
     let patronEmailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let correo = document.getElementById('correo');
+
 
     function checkEmail(elm, valor) {
       let result = patronEmailReg.test(valor);
@@ -259,14 +274,14 @@
     });
 
     // validar Tel
-    let patronTelReg = /^(?:\D*\d){10,}\D*$/;
-    let telefono = document.getElementById('telefono');
+    let patronTelReg = /^(?:\d){10,20}\D*$/;
+
 
     function checkTelefono(elm, valor) {
       let result = patronTelReg.test(valor);
       telefono.dataset.telefono = result;
       if (!result) {
-        mostrarError(telefono, "*Mínimo 10 dígitos. Solo números");
+        mostrarError(telefono, "*Mínimo 10 dígitos. Sólo números.");
       }
     }
 
@@ -283,7 +298,13 @@
 
 
 
+    function limpiarFormulario() {
+      for (let i = 0; i < campos.length; i++) {
+        campos[i].value = "";
 
+
+      }
+    }
 
 
 
@@ -291,15 +312,7 @@
 
     function validar(evento) {
       evento.preventDefault();
-      let nombre = document.getElementById('nombre');
-      let apellido = document.getElementById('apellido');
-      let correo = document.getElementById('correo');
-      let telefono = document.getElementById('telefono');
-      let sector = document.getElementById('sector');
-      let autorizo = document.getElementById('autorizo');
       let estado = true;
-
-
 
       // validar si hay valores en los campos
       if (nombre.value.length == 0) {
@@ -336,8 +349,9 @@
       if (estado) {
 
         if (nombre.dataset.nombre === 'true' && apellido.dataset.apellido === 'true' && correo.dataset.correo === 'true' && telefono.dataset.telefono === 'true') {
-          //this.disabled = true;
-          this.submit();
+
+          limpiarFormulario();
+          //this.submit();
 
         }
       }
